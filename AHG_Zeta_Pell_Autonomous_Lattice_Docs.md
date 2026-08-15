@@ -30,6 +30,10 @@ These figures must not be presented as independently verified production benchma
 
 ## 4. Mathematical / Terminology Boundary
 
+### Canonical acronym
+
+**AHG = Adaptive Harmonic Governance.** Historical conflicting expansions, including "Adaptive Hierarchical Governance," are retained only as historical audit findings and are not current definitions.
+
 ### Silver Ratio
 
 The identity $1 + \\sqrt{2}$ and its relationship to Pell-number ratios are standard mathematics. That fact does **not** by itself prove that the Silver Ratio minimizes spectral overlap, guarantees stability, or causes an observed entropy reduction. Such claims require derivation or experiment.
@@ -64,14 +68,14 @@ are treated as **unreproduced historical assertions** unless the source datasets
 
 The sampled audit identified:
 
-- AHG acronym inconsistency: Adaptive Hierarchical Governance vs Adaptive Harmonic Governance.
-- Qualitative naming judgments expressed as unsupported percentages.
-- Misleading Hecke-operator terminology.
-- Unsupported jitter multipliers.
-- Reverse-engineered 12x safety margin presented too strongly.
-- Silver Ratio premise correctly stated but unrelated stability conclusions overstated.
-- Historical benchmark dictionaries asserted rather than recomputed in place.
-- Traceability gap around the 4→2 recovery claim.
+- historical AHG acronym inconsistency; **current canonical expansion is Adaptive Harmonic Governance**;
+- qualitative naming judgments expressed as unsupported percentages;
+- misleading Hecke-operator terminology;
+- unsupported jitter multipliers;
+- reverse-engineered 12x safety margin presented too strongly;
+- Silver Ratio premise correctly stated but unrelated stability conclusions overstated;
+- historical benchmark dictionaries asserted rather than recomputed in place;
+- traceability gap around the 4→2 recovery claim.
 
 ### Pass 2 — scope limitation
 
