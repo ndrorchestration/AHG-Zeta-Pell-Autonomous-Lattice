@@ -1,0 +1,20 @@
+# Local environment / credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+service-account*.json
+
+# Python local artifacts
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editor / OS residue
+.DS_Store
+Thumbs.db
