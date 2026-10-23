@@ -172,6 +172,6 @@ The estimator contract now states explicitly that the module screens only covari
 ## Commit and collaboration state
 
 - Initial code/test commit: `a666d6181456d6ef45cfc941a1c9611daacd7a5e`
-- Follow-up changes: pending commit and push.
+- Follow-up changes commit: `546746a2311d78512c6d8df6504599328436548c`.
 - Draft follow-up PR: #5 remains open and draft against PR #4's source branch.
 - Merge status: not merged; no merge or auto-merge action authorized or attempted.
