@@ -205,6 +205,6 @@ Custom iterables or custom `__float__` implementations that raise unexpected exc
 - Initial code/test commit: `a666d6181456d6ef45cfc941a1c9611daacd7a5e`
 - Text/byte and covariance-boundary follow-up: `546746a2311d78512c6d8df6504599328436548c`.
 - Report-binding commit: `3af15db58130f3bea1aa6fd6f4deb7936d6ab00d`.
-- Additional adversarial changes: pending commit and push.
+- Additional adversarial changes: `e6ae1d210eacbcab8fd452e81e0c7b328b9f4e70`.
 - Draft follow-up PR: #5 remains open and draft against PR #4's source branch.
 - Merge status: not merged; no merge or auto-merge action authorized or attempted.
