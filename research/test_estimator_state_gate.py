@@ -61,6 +61,23 @@ class EstimatorGateTests(unittest.TestCase):
                 self.assertFalse(result.admitted)
                 self.assertEqual(result.reason, "MALFORMED_INPUT")
 
+    def test_boolean_entries_are_not_numeric_measurements(self):
+        for state, variance in (
+            ([True, 0, 0, 0], [1] * 4),
+            ([0] * 4, [True, 1, 1, 1]),
+        ):
+            with self.subTest(state=state, variance=variance):
+                result = assess_estimator_state(state, variance, age_cycles=0)
+                self.assertFalse(result.admitted)
+                self.assertEqual(result.reason, "MALFORMED_INPUT")
+
+    def test_huge_numeric_limits_fail_closed(self):
+        for kwargs in ({"max_abs_state": 10**1000}, {"max_variance": 10**1000}):
+            with self.subTest(kwargs=kwargs):
+                result = assess_estimator_state([0] * 4, [1] * 4, age_cycles=0, **kwargs)
+                self.assertFalse(result.admitted)
+                self.assertEqual(result.reason, "INVALID_CONTRACT")
+
     def test_bad_contract_and_nonnumeric_inputs_rejected(self):
         self.assertFalse(assess_estimator_state(["bad"]*4, [1]*4, age_cycles=0).admitted)
         self.assertFalse(assess_estimator_state([0]*4, [1]*4, age_cycles=0, max_variance=-1).admitted)

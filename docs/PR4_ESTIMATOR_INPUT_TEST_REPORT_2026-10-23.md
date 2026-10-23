@@ -169,9 +169,42 @@ compile check: passed
 
 The estimator contract now states explicitly that the module screens only covariance diagonal entries. It does not validate a full covariance matrix, symmetry, cross-covariances, positive semidefiniteness, eigenvalues, innovation consistency, or estimator provenance.
 
+## Additional adversarial execution — 2026-10-23
+
+ChatGPT review identified two further malformed-input cases on the exact PR #5 lineage: boolean entries inside the state/covariance vectors and very large integer contract limits. The red phase produced two assertion failures for boolean entries and two `OverflowError` escapes from `math.isfinite(10**1000)`.
+
+Added tests:
+
+```bash
+python -m unittest test_estimator_state_gate.EstimatorGateTests.test_boolean_entries_are_not_numeric_measurements test_estimator_state_gate.EstimatorGateTests.test_huge_numeric_limits_fail_closed -v
+```
+
+The gate now rejects boolean vector entries as `MALFORMED_INPUT` and catches `OverflowError` while screening numeric limits, returning `INVALID_CONTRACT`.
+
+Post-fix verification:
+
+```bash
+python -m unittest test_estimator_state_gate -v
+python -m unittest discover -v
+python -m compileall -q estimator_state_gate.py test_estimator_state_gate.py
+```
+
+Results:
+
+```text
+focused tests: 2 passed
+full estimator suite: 8 tests passed
+unittest discovery: 8 tests passed
+compile check: passed
+```
+
+Custom iterables or custom `__float__` implementations that raise unexpected exceptions remain outside the contract. The implementation catches defined conversion/type/overflow failures only; it does not broadly catch `BaseException`.
+
 ## Commit and collaboration state
 
 - Initial code/test commit: `a666d6181456d6ef45cfc941a1c9611daacd7a5e`
-- Follow-up changes commit: `546746a2311d78512c6d8df6504599328436548c`.
+- Text/byte and covariance-boundary follow-up: `546746a2311d78512c6d8df6504599328436548c`.
+- Report-binding commit: `3af15db58130f3bea1aa6fd6f4deb7936d6ab00d`.
+- Additional adversarial changes: pending commit and push.
 - Draft follow-up PR: #5 remains open and draft against PR #4's source branch.
 - Merge status: not merged; no merge or auto-merge action authorized or attempted.

@@ -16,7 +16,7 @@ An input screening pass is named `SCREENING_PASS_NOT_AUTHORIZATION`. It never su
 
 ## Tests and validation gates
 
-`research/test_estimator_state_gate.py` covers nominal bounded input, absent age, stale age, dimensions, NaN/infinity, negative or excessive variance, out-of-bounds state, invalid contract limits, and textual/byte sequences that must not be accepted as numeric vectors. Run with Python standard library from `research/`: `python -m unittest test_estimator_state_gate -v`. Tests are candidate code in draft PR #5; hosted CI and outside review are not established. A future integrated experiment must confirm changed state-to-actuator behavior under matched disturbances without introducing safety regressions and must keep validation data untouched by tuning.
+`research/test_estimator_state_gate.py` covers nominal bounded input, absent age, stale age, dimensions, NaN/infinity, negative or excessive variance, out-of-bounds state, invalid contract limits including oversized integers, textual/byte sequences, and boolean entries that must not be accepted as numeric measurements. Run with Python standard library from `research/`: `python -m unittest test_estimator_state_gate -v`. Tests are candidate code in draft PR #5; hosted CI and outside review are not established. A future integrated experiment must confirm changed state-to-actuator behavior under matched disturbances without introducing safety regressions and must keep validation data untouched by tuning.
 
 ## Evidence continuity
 
