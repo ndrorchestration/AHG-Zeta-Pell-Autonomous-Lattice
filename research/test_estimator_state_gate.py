@@ -30,6 +30,54 @@ class EstimatorGateTests(unittest.TestCase):
             with self.subTest(state=state, variance=variance):
                 self.assertFalse(assess_estimator_state(state, variance, age_cycles=0).admitted)
 
+    def test_invalid_contract_types_fail_closed(self):
+        invalid_contracts = (
+            ({"age_cycles": True}, "STALE_OR_UNKNOWN"),
+            ({"max_age_cycles": True}, "INVALID_CONTRACT"),
+            ({"max_abs_state": True}, "INVALID_CONTRACT"),
+            ({"max_variance": "100"}, "INVALID_CONTRACT"),
+        )
+        for kwargs, expected_reason in invalid_contracts:
+            with self.subTest(kwargs=kwargs):
+                call_kwargs = dict(kwargs)
+                result = assess_estimator_state(
+                    [0] * 4,
+                    [1] * 4,
+                    age_cycles=call_kwargs.pop("age_cycles", 0),
+                    **call_kwargs,
+                )
+                self.assertFalse(result.admitted)
+                self.assertEqual(result.reason, expected_reason)
+
+    def test_textual_and_byte_sequences_are_not_numeric_vectors(self):
+        for state, variance in (
+            ("0000", [1] * 4),
+            ([0] * 4, "1111"),
+            (b"0000", [1] * 4),
+            ([0] * 4, b"1111"),
+        ):
+            with self.subTest(state=state, variance=variance):
+                result = assess_estimator_state(state, variance, age_cycles=0)
+                self.assertFalse(result.admitted)
+                self.assertEqual(result.reason, "MALFORMED_INPUT")
+
+    def test_boolean_entries_are_not_numeric_measurements(self):
+        for state, variance in (
+            ([True, 0, 0, 0], [1] * 4),
+            ([0] * 4, [True, 1, 1, 1]),
+        ):
+            with self.subTest(state=state, variance=variance):
+                result = assess_estimator_state(state, variance, age_cycles=0)
+                self.assertFalse(result.admitted)
+                self.assertEqual(result.reason, "MALFORMED_INPUT")
+
+    def test_huge_numeric_limits_fail_closed(self):
+        for kwargs in ({"max_abs_state": 10**1000}, {"max_variance": 10**1000}):
+            with self.subTest(kwargs=kwargs):
+                result = assess_estimator_state([0] * 4, [1] * 4, age_cycles=0, **kwargs)
+                self.assertFalse(result.admitted)
+                self.assertEqual(result.reason, "INVALID_CONTRACT")
+
     def test_bad_contract_and_nonnumeric_inputs_rejected(self):
         self.assertFalse(assess_estimator_state(["bad"]*4, [1]*4, age_cycles=0).admitted)
         self.assertFalse(assess_estimator_state([0]*4, [1]*4, age_cycles=0, max_variance=-1).admitted)
