@@ -32,6 +32,10 @@ def assess_estimator_state(
     """
     if state is None or covariance_diagonal is None:
         return EstimatorGateResult(False, "MISSING_INPUT", None)
+    if isinstance(state, (str, bytes, bytearray)) or isinstance(
+        covariance_diagonal, (str, bytes, bytearray)
+    ):
+        return EstimatorGateResult(False, "MALFORMED_INPUT", None)
     if type(expected_dimension) is not int or expected_dimension <= 0:
         return EstimatorGateResult(False, "INVALID_CONTRACT", None)
     try:

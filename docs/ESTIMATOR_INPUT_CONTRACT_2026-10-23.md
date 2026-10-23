@@ -4,7 +4,11 @@
 
 ## Inputs and rejection
 
-A candidate estimate must include a four-dimensional finite state, four finite nonnegative covariance-diagonal values, and an explicitly known age in cycles. Default exploratory limits are state absolute value <= 1000, covariance diagonal <= 100 and age <= 1 cycle. Missing, malformed, stale, nonfinite or out-of-bounds values are rejected with a reason code. The thresholds are **screening placeholders**, not scientifically justified or safe operating ranges. Checking covariance diagonal alone does not establish positive semidefiniteness or estimator consistency.
+A candidate estimate must include a four-dimensional finite state, four finite nonnegative covariance-diagonal values, and an explicitly known age in cycles. Default exploratory limits are state absolute value <= 1000, covariance diagonal <= 100 and age <= 1 cycle. Missing, malformed, stale, nonfinite or out-of-bounds values are rejected with a reason code. The thresholds are **screening placeholders**, not scientifically justified or safe operating ranges.
+
+### Covariance-validation boundary
+
+This interface accepts and screens only a covariance **diagonal**, not a full covariance matrix. It checks finiteness, nonnegativity and the exploratory upper bound for each diagonal entry. It does **not** check symmetry, off-diagonal cross-covariances, positive semidefiniteness, eigenvalues, innovation consistency, filter consistency, or whether the values came from a valid estimator. A covariance screening pass therefore cannot establish covariance validity or estimator correctness.
 
 ## Authority separation
 
@@ -12,7 +16,7 @@ An input screening pass is named `SCREENING_PASS_NOT_AUTHORIZATION`. It never su
 
 ## Tests and validation gates
 
-`research/test_estimator_state_gate.py` covers nominal bounded input, absent age, stale age, dimensions, NaN/infinity, negative or excessive variance, overflow of state bounds and invalid contract limits. Run with Python standard library from `research/`: `python -m unittest test_estimator_state_gate -v`. Tests are candidate code in draft PR #4; hosted CI and outside review are not established. A future integrated experiment must confirm changed state-to-actuator behavior under matched disturbances without introducing safety regressions and must keep validation data untouched by tuning.
+`research/test_estimator_state_gate.py` covers nominal bounded input, absent age, stale age, dimensions, NaN/infinity, negative or excessive variance, out-of-bounds state, invalid contract limits, and textual/byte sequences that must not be accepted as numeric vectors. Run with Python standard library from `research/`: `python -m unittest test_estimator_state_gate -v`. Tests are candidate code in draft PR #5; hosted CI and outside review are not established. A future integrated experiment must confirm changed state-to-actuator behavior under matched disturbances without introducing safety regressions and must keep validation data untouched by tuning.
 
 ## Evidence continuity
 

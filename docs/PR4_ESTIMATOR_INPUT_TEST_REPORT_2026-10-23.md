@@ -141,8 +141,37 @@ The review branch contains only research-gate hardening and test/report document
 
 No historical result, benchmark, controller path, or empirical claim was changed.
 
+## Follow-up review execution — 2026-10-23
+
+A red-green test cycle was run for textual and byte sequences that can otherwise be coerced into numeric vectors:
+
+```bash
+python -m unittest test_estimator_state_gate.EstimatorGateTests.test_textual_and_byte_sequences_are_not_numeric_vectors -v
+```
+
+The new test failed on the unpatched implementation because all four malformed cases were admitted. The gate was then changed to reject `str`, `bytes`, and `bytearray` state/covariance inputs as `MALFORMED_INPUT`.
+
+Post-fix verification:
+
+```bash
+python -m unittest test_estimator_state_gate.EstimatorGateTests.test_textual_and_byte_sequences_are_not_numeric_vectors -v
+python -m unittest test_estimator_state_gate -v
+python -m compileall -q estimator_state_gate.py test_estimator_state_gate.py
+```
+
+Results:
+
+```text
+focused test: 1 test passed
+full estimator suite: 6 tests passed
+compile check: passed
+```
+
+The estimator contract now states explicitly that the module screens only covariance diagonal entries. It does not validate a full covariance matrix, symmetry, cross-covariances, positive semidefiniteness, eigenvalues, innovation consistency, or estimator provenance.
+
 ## Commit and collaboration state
 
-- Code/test commit: `a666d6181456d6ef45cfc941a1c9611daacd7a5e`
-- Draft follow-up PR: to be opened from `review/pr-4-estimator-input-tests` against PR #4's source branch.
+- Initial code/test commit: `a666d6181456d6ef45cfc941a1c9611daacd7a5e`
+- Follow-up changes: pending commit and push.
+- Draft follow-up PR: #5 remains open and draft against PR #4's source branch.
 - Merge status: not merged; no merge or auto-merge action authorized or attempted.
