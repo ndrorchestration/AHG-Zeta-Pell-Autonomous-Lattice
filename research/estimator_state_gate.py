@@ -32,14 +32,20 @@ def assess_estimator_state(
     """
     if state is None or covariance_diagonal is None:
         return EstimatorGateResult(False, "MISSING_INPUT", None)
-    if not isinstance(expected_dimension, int) or expected_dimension <= 0:
+    if type(expected_dimension) is not int or expected_dimension <= 0:
         return EstimatorGateResult(False, "INVALID_CONTRACT", None)
-    if not (isfinite(max_abs_state) and 0 < max_abs_state and
-            isfinite(max_variance) and 0 < max_variance):
+    try:
+        valid_limits = (
+            isfinite(max_abs_state) and 0 < max_abs_state and
+            isfinite(max_variance) and 0 < max_variance
+        )
+    except TypeError:
+        valid_limits = False
+    if not valid_limits or isinstance(max_abs_state, bool) or isinstance(max_variance, bool):
         return EstimatorGateResult(False, "INVALID_CONTRACT", None)
-    if not isinstance(max_age_cycles, int) or max_age_cycles < 0:
+    if type(max_age_cycles) is not int or max_age_cycles < 0:
         return EstimatorGateResult(False, "INVALID_CONTRACT", None)
-    if not isinstance(age_cycles, int) or age_cycles < 0 or age_cycles > max_age_cycles:
+    if type(age_cycles) is not int or age_cycles < 0 or age_cycles > max_age_cycles:
         return EstimatorGateResult(False, "STALE_OR_UNKNOWN", None)
     try:
         values = tuple(float(x) for x in state)
