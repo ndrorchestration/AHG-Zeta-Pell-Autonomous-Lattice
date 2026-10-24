@@ -42,3 +42,14 @@ Unaudited areas include the chaos/FML mitigation layer, the Three-Regime Governo
 **Active experimental research / audit in progress.**
 
 Do not interpret the presence of mathematical terminology, benchmark literals, agent-generated documentation, or historical certification language as evidence of current validation.
+
+## Current Research and Review Navigation (2026-10-24)
+
+The following work is **proposed on unmerged branches** and does not change the historical baseline or establish scientific validity:
+
+- [Research PR #4](https://github.com/ndrorchestration/AHG-Zeta-Pell-Autonomous-Lattice/pull/4): experimental replay, estimator-coupling negative findings and research-only screening proposal; draft, exact head `055bd684b38b8846650d6774831c769154429761` at this documentation checkpoint.
+- [Hermes review PR #5](https://github.com/ndrorchestration/AHG-Zeta-Pell-Autonomous-Lattice/pull/5): hardening and eight unit tests for isolated estimator input screening, targeting the research branch rather than `main`; draft, exact head `a48be3e401e294172c72aa979f67b3184f288202` at this checkpoint.
+- [Coordination issue #6](https://github.com/ndrorchestration/AHG-Zeta-Pell-Autonomous-Lattice/issues/6): canonical human-auditable Hermes and ChatGPT assignment, review and verification record.
+- [Notion research record](https://app.notion.com/p/3bdf5bad238b81f398c1f56c2051de79): interpreted research status and evidence boundaries.
+
+The reported two-cycle post-PID return was **transient, not sustained**. The estimator-input gate is not a controller authorization surface; covariance diagonal screening does not prove positive semidefiniteness or estimator correctness. Hermes' eight-test report and a separate local reconstructed-source execution support limited software behavior; a Git-blob-bound clean-checkout receipt and independent scientific validation remain unestablished at this checkpoint. Do not infer release approval or production safety from a green test, research result, PR, or documentation link. Read live GitHub heads and statuses before making decisions.
